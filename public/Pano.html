@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>View Out ISS</title>
+  <link rel="stylesheet" href="./css/pano.css"/>
+  <!-- Importmap cho Three.js -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.152.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.152.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.6.4/dist/tween.umd.js"></script>
+
+</head>
+<body>
+  <div id="fade"></div>
+  <div id="title">🌌 Trải Nghiệm Cực Quang Phía Bắc</div>
+
+  <div id="controls">
+    <button id="togglePlay">▶️ Phát</button>
+  </div>
+
+  <button id="fullscreen-btn">⛶ Toàn màn hình</button>
+  <button id="Back-btn">Back</button>
+  
+  <script type="module" src="../script/Pano.js"></script>
+  
+  <!-- ← THÊM: Script tự mark loaded sau 500ms (để fade-in nội bộ) -->
+  <script>
+    setTimeout(() => {
+      document.body.classList.add('loaded');
+      console.log('Pano.html: Auto-fade-in triggered');
+    }, 500);
+  </script>
+</body>
+</html>

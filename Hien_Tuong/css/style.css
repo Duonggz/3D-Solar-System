@@ -1,0 +1,132 @@
+body {
+      margin: 0;
+      overflow: hidden;
+      background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000 100%);
+      font-family: "Segoe UI", sans-serif;
+      color: white;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    /* Tiêu đề */
+    #title {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 26px;
+      font-weight: 500;
+      text-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+      opacity: 0.9;
+      z-index: 10;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    /* Controls chính (phát/dừng) */
+    #controls {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 12px 25px;
+      border-radius: 50px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+      transition: opacity 0.4s ease;
+    }
+
+    /* Nút fullscreen (góc phải) */
+    #fullscreen-btn {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      z-index: 11;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0,255,255,0.4);
+      border-radius: 12px;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: all 0.3s ease, opacity 0.4s ease;
+    }
+
+    #fullscreen-btn:hover {
+      background: rgba(0, 255, 255, 0.2);
+      box-shadow: 0 0 20px rgba(0,255,255,0.4);
+    }
+
+    #Back-btn {
+      position: absolute;
+      top: 20px;
+      left: 25px;
+      z-index: 11;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0,255,255,0.4);
+      border-radius: 12px;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: all 0.3s ease, opacity 0.4s ease;
+    }
+
+    #Back-btn:hover {
+      background: rgba(0, 255, 255, 0.2);
+      box-shadow: 0 0 20px rgba(0,255,255,0.4);
+    }
+
+    /* Nút chung */
+    button {
+      padding: 12px 22px;
+      font-size: 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(0,255,255,0.3), rgba(0,150,255,0.2));
+      color: #fff;
+      border: 1px solid rgba(0,255,255,0.4);
+      transition: all 0.3s;
+      box-shadow: 0 0 15px rgba(0,255,255,0.1);
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, rgba(0,255,255,0.5), rgba(0,150,255,0.4));
+      box-shadow: 0 0 25px rgba(0,255,255,0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Ẩn control, tiêu đề, fullscreen khi đang xem */
+    body.playing #controls,
+    body.playing #title,
+    body.playing #fullscreen-btn {
+      opacity: 0;
+      cursor: none;
+    }
+    body.playing #Back-btn {
+      opacity: 0;
+      cursor: none;
+    }
+
+    /* Fade đen lúc mở */
+    #fade {
+      position: absolute;
+      inset: 0;
+      background: black;
+      opacity: 1;
+      transition: opacity 1.5s ease;
+      z-index: 20;
+    }
+
+    #fade.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }

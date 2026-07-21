@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Earth Không gian</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/earth.css"/>
+</head>
+<body>
+    <!-- Instructions -->
+    <!-- <div id="instructions">
+        Controls: V (ISS FPS), C (Orbit View), B (Back View), N (Panorama in View), R (Travel Mode - Click labels on Earth!)
+        <br>ESC to exit panorama.
+    </div> -->
+
+    <!-- 🎛️ NÚT BÊN TRÁI (Ghi chú) -->
+    <div id="notes-button">
+        <i class="fas fa-sticky-note"></i>
+    </div>
+
+    <!-- 🎛️ NÚT BÊN PHẢI (Cài đặt) -->
+    <div id="settings-button">
+        <i class="fas fa-cog"></i>
+    </div>
+
+    <!-- 🎛️ NÚT MENU CHÍNH (phía dưới) -->
+    <button id="main-menu-button">
+        <i class="fas fa-bars"></i>
+        Menu Chức Năng
+    </button>
+
+    <!-- 📋 MENU OVERLAY - NẰM NGANG -->
+    <div id="menu-overlay">
+        <div class="menu-item" id="menu-home">
+            <i class="fas fa-home"></i>
+            <span class="menu-text">Trang chủ</span>
+        </div>
+        <div class="menu-item" id="menu-travel">
+            <img src="../icon/1.png" alt="Travel" class="menu-icon">
+            <span class="menu-text">Du lịch (R)</span>
+        </div>
+        <div class="menu-item" id="menu-iss-inside">
+            <img src="../icon/2.png" alt="ISS Inside" class="menu-icon">
+            <span class="menu-text">Bên trong ISS (V)</span>
+        </div>
+        <div class="menu-item" id="menu-iss-outside1">
+            <img src="../icon/3.png" alt="ISS Outside 1" class="menu-icon">
+            <span class="menu-text">Bên ngoài ISS_Góc 1 (C)</span>
+        </div>
+        <div class="menu-item" id="menu-iss-outside2">
+            <img src="../icon/4.png" alt="ISS Outside 2" class="menu-icon">
+            <span class="menu-text">Bên ngoài ISS_Góc 2 (B)</span>
+        </div>
+        <div class="menu-item" id="menu-astronaut">
+            <img src="../icon/5.png" alt="Astronaut" class="menu-icon">
+            <span class="menu-text">Phi hành gia (N)</span>
+        </div>
+        <div class="menu-item" id="menu-moon-view">
+            <img src="../icon/6.png" alt="Moon View" class="menu-icon">
+            <span class="menu-text">Góc nhìn từ Mặt trăng (F)</span>
+        </div>
+    </div>
+
+    <!-- ⚙️ SETTINGS OVERLAY -->
+    <div id="settings-overlay">
+        <div class="overlay-header">Cài Đặt</div>
+        <div class="settings-box">
+            <label>
+                <span><i class="fas fa-volume-up" style="margin-right: 8px;"></i>Âm thanh</span>
+                <input type="range" id="soundRange" min="0" max="1" step="0.1" value="0.5">
+            </label>
+            <label>
+                <span><i class="fas fa-tachometer-alt" style="margin-right: 8px;"></i>Tốc độ quay</span>
+                <input type="range" id="rotationSpeedRange" min="0.1" max="5" step="0.1" value="1.0">
+            </label>
+        </div>
+    </div>
+
+    <!-- 📝 NOTES OVERLAY -->
+    <div id="notes-overlay">
+        <div class="overlay-header">Hướng Dẫn Điều Khiển</div>
+        <div class="notes-content">
+            <div class="note-item">
+                <span class="key-badge">R</span>
+                <span>Chế độ du lịch</span>
+            </div>
+            <div class="note-item">
+                <span class="key-badge">F</span>
+                <span>Khám phá Mặt Trăng</span>
+            </div>
+            <div class="note-item">
+                <span class="key-badge">V</span>
+                <span>ISS nhìn từ bên trong</span>
+            </div>
+            <div class="note-item">
+                <span class="key-badge">C</span>
+                <span>ISS nhìn từ bên ngoài (góc 1)</span>
+            </div>
+            <div class="note-item">
+                <span class="key-badge">B</span>
+                <span>ISS nhìn từ bên ngoài (góc 2)</span>
+            </div>
+            <div class="note-item">
+                <span class="key-badge">N</span>
+                <span>Phi hành gia nhìn từ ISS</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- OVERLAY BACKDROP -->
+    <div class="overlay-backdrop" id="overlayBackdrop"></div>
+
+    <!-- Iframe -->
+    <iframe id="panorama-container" src="" allow="fullscreen; autoplay; encrypted-media"></iframe>
+
+    <!-- Importmap for Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.152.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.152.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <!-- TWEEN.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.6.4/dist/tween.umd.js"></script>
+
+    <!-- Scripts -->
+    <script type="module" src="../script/main.js"></script>
+        <!-- 🎵 Âm thanh nền -->
+    <audio id="bgm" src="../sounds/space5.mp3" loop></audio>
+    <script>
+
+    // ============================
+    // 🎮 XỬ LÝ GIAO DIỆN MENU - ĐƠN GIẢN
+    // ============================
+    const menuOverlay = document.getElementById('menu-overlay');
+    const settingsOverlay = document.getElementById('settings-overlay');
+    const notesOverlay = document.getElementById('notes-overlay');
+    const overlayBackdrop = document.getElementById('overlayBackdrop');
+    const mainMenuButton = document.getElementById('main-menu-button');
+    const settingsButton = document.getElementById('settings-button');
+    const notesButton = document.getElementById('notes-button');
+    const soundRange = document.getElementById('soundRange');
+    const rotationSpeedRange = document.getElementById('rotationSpeedRange');
+    const bgm = document.getElementById('bgm');
+
+    // Biến theo dõi trạng thái menu
+    let isMenuOpen = false;
+    let currentActiveMode = 'default';
+
+    // 🎛️ Mở/đóng menu chính
+    mainMenuButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        if (isMenuOpen) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+
+    // ⚙️ Mở settings
+    settingsButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        settingsOverlay.classList.add('active');
+        overlayBackdrop.classList.add('active');
+        closeMenu();
+        notesOverlay.classList.remove('active');
+    });
+
+    // 📝 Mở ghi chú
+    notesButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        notesOverlay.classList.add('active');
+        overlayBackdrop.classList.add('active');
+        closeMenu();
+        settingsOverlay.classList.remove('active');
+    });
+
+    // 🖱️ Đóng tất cả overlay khi click backdrop
+    overlayBackdrop.addEventListener('click', () => {
+        closeAllOverlays();
+    });
+
+    // 🏠 Trang chủ
+    document.getElementById('menu-home').addEventListener('click', () => {
+        setActiveMode('home');
+        window.location.href = '../index.html';
+    });
+
+    // 🎮 Các chức năng chính - KHÔNG CÓ ÂM THANH
+    document.getElementById('menu-travel').addEventListener('click', () => {
+        setActiveMode('travel');
+        simulateKeyPress('r');
+        closeAllOverlays();
+    });
+
+    document.getElementById('menu-iss-inside').addEventListener('click', () => {
+        setActiveMode('iss-inside');
+        simulateKeyPress('v');
+        closeAllOverlays();
+    });
+
+    document.getElementById('menu-iss-outside1').addEventListener('click', () => {
+        setActiveMode('iss-outside1');
+        simulateKeyPress('c');
+        closeAllOverlays();
+    });
+
+    document.getElementById('menu-iss-outside2').addEventListener('click', () => {
+        setActiveMode('iss-outside2');
+        simulateKeyPress('b');
+        closeAllOverlays();
+    });
+
+    document.getElementById('menu-astronaut').addEventListener('click', () => {
+        setActiveMode('astronaut');
+        simulateKeyPress('n');
+        closeAllOverlays();
+    });
+
+    document.getElementById('menu-moon-view').addEventListener('click', () => {
+        setActiveMode('moon-view');
+        simulateKeyPress('f');
+        closeAllOverlays();
+    });
+
+    // 🎵 Điều chỉnh âm thanh nền
+    if (soundRange && bgm) {
+        soundRange.addEventListener('input', e => {
+            const volume = parseFloat(e.target.value);
+            bgm.volume = volume;
+        });
+    }
+
+    // 🔄 Điều chỉnh tốc độ quay
+    if (rotationSpeedRange) {
+        rotationSpeedRange.addEventListener('input', e => {
+            if (window.rotationSpeed !== undefined) {
+                window.rotationSpeed = parseFloat(e.target.value);
+            }
+        });
+    }
+
+    // 🎯 Set active mode và highlight
+    function setActiveMode(mode) {
+        // Xóa active class cũ
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        // Thêm active class mới
+        const activeItem = document.getElementById(`menu-${mode}`);
+        if (activeItem) {
+            activeItem.classList.add('active');
+        }
+        
+        // Cập nhật nút menu chính
+        updateMainButton(mode);
+        
+        currentActiveMode = mode;
+    }
+
+    // 🔄 Cập nhật nút menu chính
+    function updateMainButton(mode) {
+        if (mode !== 'default' && mode !== 'home') {
+            mainMenuButton.classList.add('active');
+            mainMenuButton.innerHTML = `<i class="fas fa-check"></i> Đang hoạt động`;
+        } else {
+            mainMenuButton.classList.remove('active');
+            mainMenuButton.innerHTML = `<i class="fas fa-bars"></i> Menu Chức Năng`;
+        }
+    }
+
+    // ⌨️ Mô phỏng nhấn phím
+    function simulateKeyPress(key) {
+        const event = new KeyboardEvent('keydown', {
+            key: key,
+            code: `Key${key.toUpperCase()}`,
+            keyCode: key.toUpperCase().charCodeAt(0),
+            which: key.toUpperCase().charCodeAt(0),
+            bubbles: true,
+            cancelable: true
+        });
+        window.dispatchEvent(event);
+    }
+
+    // 🔓 Mở menu
+    function openMenu() {
+        menuOverlay.classList.add('active');
+        overlayBackdrop.classList.add('active');
+        isMenuOpen = true;
+        
+        settingsOverlay.classList.remove('active');
+        notesOverlay.classList.remove('active');
+    }
+
+    // 🔒 Đóng menu
+    function closeMenu() {
+        menuOverlay.classList.remove('active');
+        isMenuOpen = false;
+        
+        if (!settingsOverlay.classList.contains('active') && !notesOverlay.classList.contains('active')) {
+            overlayBackdrop.classList.remove('active');
+        }
+    }
+
+    // 🔒 Đóng tất cả overlay
+    function closeAllOverlays() {
+        menuOverlay.classList.remove('active');
+        settingsOverlay.classList.remove('active');
+        notesOverlay.classList.remove('active');
+        overlayBackdrop.classList.remove('active');
+        isMenuOpen = false;
+    }
+
+    // Message listener cho panorama
+    window.addEventListener('message', (event) => {
+        if (event.data.type === 'exitPanorama') {
+            if (typeof window.exitPanorama === 'function') {
+                window.exitPanorama();
+            }
+            // Reset về mode default khi thoát panorama
+            setActiveMode('default');
+            console.log('🔙 Returned from Panorama (message)');
+        }
+    });
+
+    // Ẩn instructions sau 5s
+    setTimeout(() => {
+        document.getElementById('instructions').style.display = 'none';
+    }, 5000);
+
+    // ESC để đóng tất cả overlay
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeAllOverlays();
+        }
+    });
+
+    // Tự động play nhạc nền khi trang load
+    window.addEventListener('load', () => {
+        if (bgm) {
+            bgm.play().catch(e => {
+                console.log('Autoplay prevented, user interaction required');
+            });
+        }
+    });
+
+    </script>
+
+</body>
+</html>

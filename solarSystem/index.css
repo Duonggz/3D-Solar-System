@@ -1,0 +1,255 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: #00000000;
+    color: #e6f7ff;
+    overflow: hidden;
+}
+
+#namePlanet {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 80;
+    display: none;
+    pointer-events: none;
+    text-align: center;
+    padding: 6px 16px;
+    border-radius: 6px;
+}
+
+#namePlanet #panelTitle {
+    margin: 0;
+    font-size: 54px;
+    font-weight: 700;
+    color: #dff8ff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    letter-spacing: 0.6px;
+    pointer-events: none;
+}
+
+#infoPanel {
+    position: absolute;
+    top: 150px;
+    left: 60px;
+    width: 36%;
+    min-width: 360px;
+    max-width: 520px;
+    height: 500px;
+    z-index: 70;
+    display: none;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+    border-radius: 12px;
+    border: 1px solid rgba(150, 220, 255, 0);
+    padding: 18px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+}
+
+#infoPanel #planet {
+    margin-bottom: 10px;
+}
+
+#infoPanel #planet button {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: 1px solid rgba(80, 200, 255, 0.25);
+    background: rgba(12, 36, 48, 0.25);
+    color: #cfefff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    cursor: default;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+#in4planet {
+    margin-top: 8px;
+    height: calc(100% - 56px);
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+#info {
+    text-align: left;
+    line-height: 1.5;
+    color: #d7eefc;
+    font-size: 24px;
+}
+
+#info p {
+    margin: 8px 0;
+}
+
+#info p strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+#in4planet::-webkit-scrollbar {
+    width: 8px;
+}
+
+#in4planet::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0);
+    border-radius: 8px;
+}
+
+#planetDisplay {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 42%;
+    min-width: 520px;
+    height: calc(100vh - 120px);
+    z-index: 60;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#corePanel {
+    position: absolute;
+    top: 150px;
+    right: 60px;
+    width: 28%;
+    min-width: 360px;
+    max-width: 520px;
+    height: 650px;
+    z-index: 70;
+    display: none;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+    border-radius: 12px;
+    border: 1px solid rgba(150, 220, 255, 0);
+    padding: 18px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+}
+
+#corePanel #core {
+    text-align: right;
+}
+
+#corePanel #core button {
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: 1px solid rgba(80, 200, 255, 0.18);
+    background: rgba(12, 36, 48, 0.22);
+    color: #cfefff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    cursor: default;
+}
+
+#in4core {
+    margin-top: 12px;
+    height: calc(100% - 56px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+#cutDiv img {
+    max-width: 100%;
+    width: 60%;
+    border-radius: 10px;
+    display: block;
+    box-shadow: 0 6px 22px rgba(255, 140, 0, 0);
+    margin-bottom: 4px;
+}
+
+#cutDiv>div {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    color: rgba(10, 10, 10, 0.95);
+    font-weight: 700;
+    margin-bottom: 10px;
+    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15);
+    display: block;
+    text-align: left;
+}
+
+#cutDiv small {
+    display: block;
+    margin-top: 6px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 24px;
+}
+
+#cutDiv>div[style] {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.92);
+}
+
+#in4core::-webkit-scrollbar {
+    width: 8px;
+}
+
+#in4core::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+}
+
+@media (max-width: 1300px) {
+    #infoPanel,
+    #corePanel,
+    #planetDisplay {
+        left: 40px;
+        right: 40px;
+        width: calc(100% - 80px);
+        min-width: 320px;
+        position: absolute;
+        top: auto;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    #infoPanel {
+        top: 90px;
+    }
+    #planetDisplay {
+        top: calc(90px + 360px);
+    }
+    #corePanel {
+        top: calc(90px + 360px + 40px);
+    }
+    #namePlanet {
+        top: 12px;
+    }
+}
+
+body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+        }
+        
+        #blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(8px);
+            background-color: rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 5;
+        }

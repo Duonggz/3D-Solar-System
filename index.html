@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ Mặt Trời 3D</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./index.css"/>
+</head>
+
+<body>
+  <script type="module" src="abc.js"></script>
+
+  <!-- LOADING SCREEN -->
+  <div id="loading-screen">
+    <div class="loading-content">
+      <h1 class="loading-title">HỆ MẶT TRỜI 3D</h1>
+      <div class="loading-bar-container">
+        <div class="loading-bar" id="loadingBar"></div>
+      </div>
+      <div class="loading-text" id="loadingText">Đang tải vũ trụ...</div>
+    </div>
+  </div>
+
+  <!-- MÀN HÌNH BẮT ĐẦU -->
+  <div id="start-screen" class="hidden">
+    <div class="title-container">
+      <h1 class="main-title">HỆ MẶT TRỜI 3D</h1>
+      <p class="subtitle">KHÁM PHÁ VŨ TRỤ TRONG LÒNG BÀN TAY</p>
+    </div>
+    <button id="btnStartJourney">
+      <i class="fas fa-rocket" style="margin-right: 10px;"></i>
+      Bắt Đầu Hành Trình
+    </button>
+  </div>
+
+  <!-- NÚT MENU (xuất hiện sau khi bắt đầu hành trình) -->
+  <button id="menu-button">
+    <i class="fas fa-bars" style="margin-right: 8px;"></i>
+    Menu
+  </button>
+
+  <!-- MENU CHỨC NĂNG -->
+  <div id="menu-overlay">
+    <div class="menu-box">
+      <div class="menu-item" data-link="#">
+        <div class="menu-icon">🏠</div>
+        <div class="menu-text">Trang Chủ</div>
+      </div>
+      <div class="menu-item" data-link="../solarSystem/index.html">
+        <div class="menu-icon">☀️</div>
+        <div class="menu-text">Hệ Mặt Trời</div>
+      </div>
+      <div class="menu-item" data-link="../public/earth_iss.html">
+        <div class="menu-icon">🌍</div>
+        <div class="menu-text">Khám Phá Trái Đất</div>
+      </div>
+      <div class="menu-item" data-action="astronomy">
+        <div class="menu-icon">🌌</div>
+        <div class="menu-text">Hiện Tượng Thiên Văn</div>
+      </div>
+      <div class="menu-item" data-action="travel-earth">
+        <div class="menu-icon">✈️</div>
+        <div class="menu-text">Du Lịch Trái Đất</div>
+      </div>
+      <div class="menu-item" data-action="space-exp">
+        <div class="menu-icon">🚀</div>
+        <div class="menu-text">Trải Nghiệm Không Gian</div>
+      </div>
+      <div class="menu-item" data-link="../space/bay.html">
+        <div class="menu-icon">🛸</div>
+        <div class="menu-text">Du Hành Liên Hành Tinh</div>
+      </div>
+      <div class="menu-item" data-link="../public/star.html">
+        <div class="menu-icon">⭐</div>
+        <div class="menu-text">Ngắm Sao</div>
+      </div>
+      <div class="menu-item" data-link="../Khampha/hoctap.html">
+        <div class="menu-icon">🔭</div>
+        <div class="menu-text">Học Tập & Khám Phá</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NÚT MỞ CÀI ĐẶT -->
+  <div id="settings-button">
+    <i class="fas fa-cogs"></i>
+  </div>
+
+  <!-- MENU CÀI ĐẶT -->
+  <div id="settings-overlay">
+    <div class="settings-header">Cài Đặt</div>
+    <div class="settings-box">
+      <label>
+        <span><i class="fas fa-volume-up" style="margin-right: 8px;"></i>Âm thanh</span>
+        <input type="range" id="soundRange" min="0" max="1" step="0.1" value="0.5">
+      </label>
+      <label>
+        <span><i class="fas fa-tachometer-alt" style="margin-right: 8px;"></i>Tốc độ</span>
+        <input type="range" id="speedRange" min="0.1" max="5" step="0.1" value="1">
+      </label>
+      <label>
+        <span><i class="fas fa-circle-notch" style="margin-right: 8px;"></i>Quỹ đạo</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="orbitToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </label>
+      <label>
+        <span><i class="fas fa-star" style="margin-right: 8px;"></i>Starfield</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="starfieldToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </label>
+    </div>
+  </div>
+
+  <!-- PANEL BÊN TRÁI -->
+  <div id="side-buttons">
+    <button class="side-btn" data-target="panel-astronomy" title="Thiên văn">
+      <i class="fas fa-star-and-crescent"></i>
+    </button>
+    <button class="side-btn" data-target="panel-travel-earth" title="Du hành Trái Đất">
+      <i class="fas fa-globe-americas"></i>
+    </button>
+    <button class="side-btn" data-target="panel-space-exp" title="Khám phá vũ trụ">
+      <i class="fas fa-rocket"></i>
+    </button>
+  </div>
+
+  <!-- OVERLAY ĐỂ TẮT PANEL -->
+  <div class="panel-overlay" id="panelOverlay"></div>
+
+  <!-- PANEL HIỆN TƯỢNG THIÊN VĂN -->
+  <div id="panel-astronomy" class="side-panel">
+    <div class="close-btn" data-close>
+      <i class="fas fa-times"></i>
+    </div>
+    <h2>Hiện Tượng Thiên Văn</h2>
+    <p>Khám phá các hiện tượng thiên văn kỳ thú trong vũ trụ</p>
+
+    <div class="panel-items">
+      <div class="panel-item" data-link="./Hien_Tuong/html/Cực quang bắc.html">
+        <i style="margin-right: 8px;"></i>Cực quang Bắc
+      </div>
+      <div class="panel-item" data-link="./Hien_Tuong/html/Cực quang nam.html">
+        <i style="margin-right: 8px;"></i>Cực quang Nam
+      </div>
+      <div class="panel-item" data-link="./Hien_Tuong/html/Nguyệt thực.html">
+        <i style="margin-right: 8px;"></i>Nguyệt thực
+      </div>
+      <div class="panel-item" data-link="./Hien_Tuong/html/Nhật thực.html">
+        <i style="margin-right: 8px;"></i>Nhật thực
+      </div>
+      <div class="panel-item" data-link="./Hien_Tuong/html/Sao băng.html">
+        <i style="margin-right: 8px;"></i>Sao băng
+      </div>
+      <div class="panel-item" data-link="./Hien_Tuong/html/Thiên thạch.html">
+        <i style="margin-right: 8px;"></i>Thiên thạch
+      </div>
+      <div class="panel-item" data-link="./Hien_Tuong/html/Trời đêm.html">
+        <i style="margin-right: 8px;"></i>Trời đêm
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL DU LỊCH TRÁI ĐẤT -->
+  <div id="panel-travel-earth" class="side-panel">
+    <div class="close-btn" data-close>
+      <i class="fas fa-times"></i>
+    </div>
+    <h2> Du Lịch Trái Đất</h2>
+    <p>Khám phá các địa điểm nổi bật trên Trái Đất</p>
+
+    <div class="panel-items">
+      <div class="panel-item" data-link="./Travel/html/eiffel.html">
+        <i class="fas fa-monument" style="margin-right: 8px;"></i>Tour khám phá 1
+      </div>
+      <div class="panel-item" data-link="./Travel/html/lanh1.html">
+        <i class="fas fa-mountain" style="margin-right: 8px;"></i>Tour khám phá 2
+      </div>
+      <div class="panel-item" data-link="./Travel/html/lanh2.html">
+        <i class="fas fa-archway" style="margin-right: 8px;"></i>Tour khám phá 3
+      </div>
+      <div class="panel-item" data-link="./Travel/html/lanh3.html">
+        <i class="fas fa-umbrella-beach" style="margin-right: 8px;"></i>Tour khám phá 4
+      </div>
+      <div class="panel-item" data-link="./Travel/html/lanh4.html">
+        <i class="fas fa-tree" style="margin-right: 8px;"></i>Tour khám phá 5
+      </div>
+      <div class="panel-item" data-link="./Travel/html/lanh5.html">
+        <i class="fas fa-city" style="margin-right: 8px;"></i>Tour khám phá 6
+      </div>
+      <div class="panel-item" data-link="./Travel/html/morning.html">
+        <i class="fas fa-sun" style="margin-right: 8px;"></i>Tour khám phá 7
+      </div>
+      <div class="panel-item" data-link="./Travel/html/star.html">
+        <i class="fas fa-monument" style="margin-right: 8px;"></i>Tour khám phá 8
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL TRẢI NGHIỆM KHÔNG GIAN -->
+  <div id="panel-space-exp" class="side-panel">
+    <div class="close-btn" data-close>
+      <i class="fas fa-times"></i>
+    </div>
+    <h2>Trải Nghiệm Không Gian</h2>
+    <p>Khám phá các hành tinh trong Hệ Mặt Trời</p>
+
+    <div class="panel-items">
+      <div class="panel-item" data-link="./Star/html/sun.html">
+        <img src="./icon/sun.png" alt="Sun" style="width: 20px; height: 20px; margin-right: 8px;">Mặt Trời
+      </div>
+      <div class="panel-item" data-link="./Star/html/mercury.html">
+        <img src="./icon/mercury.png" alt="Mercury" style="width: 20px; height: 20px; margin-right: 8px;">Sao Thủy
+      </div>
+      <div class="panel-item" data-link="./Star/html/venus.html">
+        <img src="./icon/venus.png" alt="Venus" style="width: 20px; height: 20px; margin-right: 8px;">Sao Kim
+      </div>
+      <div class="panel-item" data-link="./Star/html/earth.html">
+        <img src="./icon/earth.png" alt="Earth" style="width: 20px; height: 20px; margin-right: 8px;">Trái Đất
+      </div>
+      <div class="panel-item" data-link="./Star/html/mars.html">
+        <img src="./icon/mars.png" alt="Mars" style="width: 20px; height: 20px; margin-right: 8px;">Sao Hỏa
+      </div>
+      <div class="panel-item" data-link="./Star/html/jupiter.html">
+        <img src="./icon/jupiter.png" alt="Jupiter" style="width: 20px; height: 20px; margin-right: 8px;">Sao Mộc
+      </div>
+      <div class="panel-item" data-link="./Star/html/saturn.html">
+        <img src="./icon/saturn.png" alt="Saturn" style="width: 20px; height: 20px; margin-right: 8px;">Sao Thổ
+      </div>
+      <div class="panel-item" data-link="./Star/html/uranus.html">
+        <img src="./icon/uranus.png" alt="Uranus" style="width: 20px; height: 20px; margin-right: 8px;">Sao Thiên Vương
+      </div>
+
+      <div class="panel-item" data-link="./Star/html/neptune.html">
+        <img src="./icon/neptune.png" alt="Neptune" style="width: 20px; height: 20px; margin-right: 8px;">Sao Hải Vương
+      </div>
+      <div class="panel-item" data-link="./Star/html/pluto.html">
+        <img src="./icon/pluto.png" alt="Pluto" style="width: 20px; height: 20px; margin-right: 8px;">Sao Diêm Vương
+      </div>
+    </div>
+  </div>
+
+  <audio id="bgm" src="./sounds/space6.mp3" loop></audio>
+
+  <script src="./index.js"></script>
+</body>
+</html>

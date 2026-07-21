@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Tour Khám Phá Số 2</title>
+  <link rel="stylesheet" href="../css/lanh.css"/>
+</head>
+<body>
+  <div id="label"></div>
+  <div id="videoControls">
+    <button id="playBtn">▶ Play Video</button>
+    <button id="pauseBtn">⏸ Pause</button>
+  </div>
+
+  <!-- Nơi chứa mũi tên -->
+  <div id="arrowContainer"></div>
+<div id="fade" class="hidden"></div>
+  <button id="Back-btn">⬅ Trở về</button>
+  <button id="fullscreenBtn">⛶ Toàn màn hình</button>
+<script>
+  document.getElementById("Back-btn").addEventListener("click", () => {
+  const fade = document.getElementById("fade");
+  fade.classList.remove("hidden");
+  fade.style.opacity = "1";
+  setTimeout(() => {
+    window.location.href = "../../../index.html";
+  }, 600);
+});
+
+document.getElementById("fullscreenBtn").addEventListener("click", () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+</script>
+  <script type="module" src="../JS/lanh1.js"></script>
+</body>
+</html>

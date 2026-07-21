@@ -1,0 +1,123 @@
+
+    body { margin: 0; overflow: hidden; background-color: black; }
+    canvas { display: block; }
+
+    /* Video controls */
+    #videoControls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: none;
+    }
+    button {
+      background: rgba(255,255,255,0.85);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      margin: 0 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    button:hover { background: rgba(200,200,255,0.9); }
+
+    /* Label */
+    #label {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-family: sans-serif;
+      font-size: 24px;
+      text-shadow: 0 0 8px rgba(0,0,0,0.8);
+      opacity: 0;
+      transition: opacity 1s;
+      z-index: 20;
+    }
+
+    /* Arrow container */
+    #arrowContainer {
+      position: absolute;
+      bottom: 100px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      z-index: 20;
+    }
+
+    /* Arrow style */
+    .arrow {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      user-select: none;
+      z-index: 20;
+    }
+
+    .arrow:hover {
+      background: rgba(200,200,255,0.9);
+      transform: scale(1.15);
+    }
+
+
+
+    #Back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255,255,255,0.85);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 30;
+  transition: background 0.3s, transform 0.2s;
+}
+#Back-btn:hover {
+  background: rgba(200,200,255,0.9);
+  transform: scale(1.1);
+}
+
+#fullscreenBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255,255,255,0.85);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 30;
+  transition: background 0.3s, transform 0.2s;
+}
+#fullscreenBtn:hover {
+  background: rgba(200,200,255,0.9);
+  transform: scale(1.1);
+}
+#fade {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: black;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  z-index: 100;
+}
+#fade.hidden { opacity: 0; }
+

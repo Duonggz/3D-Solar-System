@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nhật thực</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div id="fade"></div>
+  <div id="title">🌌 Trải Nghiệm Nhật Thực</div>
+
+  <div id="controls">
+    <button id="togglePlay">▶️ Phát</button>
+  </div>
+
+  <button id="fullscreen-btn">⛶ Toàn màn hình</button>
+  <button id="Back-btn">Back</button>
+  <script type="module" src="../JS/Nhật thực.js"></script>
+    <script>
+  // Khi nhấn nút Back → quay lại index.html
+  document.getElementById("Back-btn").addEventListener("click", () => {
+    // Hiệu ứng fade-out nhẹ
+    const fade = document.getElementById("fade");
+    fade.classList.remove("hidden");
+    fade.style.opacity = "1";
+    setTimeout(() => {
+      window.location.href = "../../../index.html";
+    }, 600); // đợi hiệu ứng 0.6s trước khi chuyển
+  });
+</script>
+</body>
+</html>

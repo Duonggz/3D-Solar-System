@@ -1,0 +1,14 @@
+{
+  "title": "Hamburg",
+  "panoramas": {
+    "pano_1": { "file": "../textures1/lanh1_1.jpg", "label": "Hamburg - View 1" },
+    "pano_2": { "file": "../textures1/lanh1_2.jpg", "label": "Hamburg - View 2" },
+    "pano_3": { "file": "../textures1/lanh1_3.jpg", "label": "Hamburg - View 3 (Video Area)" }
+  },
+  "video": "../Video/lanh1.mp4",
+  "navigation": {
+    "pano_1": [{ "symbol": "➡", "target": "pano_2" }],
+    "pano_2": [{ "symbol": "⬅", "target": "pano_1" }, { "symbol": "➡", "target": "pano_3" }],
+    "pano_3": [{ "symbol": "⬅", "target": "pano_2" }]
+  }
+}

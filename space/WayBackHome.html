@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trình xem ảnh 360° Google Maps</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #000;
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        #video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        #skip-button {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        #skip-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        #back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        #back-button:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        #map-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: none;
+        }
+        
+        #street-view {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .volume-control {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .volume-slider {
+            width: 100px;
+        }
+        
+        .volume-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Video Intro Container -->
+    <div id="video-container">
+        <video id="intro-video" autoplay>
+            <source src="./backHome.mp4" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ video.
+        </video>
+        
+        <!-- <div class="volume-control">
+            <button class="volume-button" id="mute-button">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <input type="range" min="0" max="1" step="0.1" value="0.5" class="volume-slider" id="volume-slider">
+        </div> -->
+        
+        <button id="skip-button">Bỏ qua</button>
+    </div>
+    
+    <!-- Nút Back -->
+    <a href="../index.html" id="back-button">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </a>
+    
+    <!-- Map Container -->
+    <div id="map-container">
+        <iframe 
+            id="street-view"
+            src="https://www.google.com/maps/embed?pb=!4v1761109557351!6m8!1m7!1sKKv87ud2QVYVZIK_HfTC1w!2m2!1d21.13320847656296!2d105.3567986394752!3f229.52!4f-2.299999999999997!5f0.7820865974627469"
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+
+    <script>
+        // Tham chiếu đến các phần tử
+        const videoContainer = document.getElementById('video-container');
+        const introVideo = document.getElementById('intro-video');
+        const skipButton = document.getElementById('skip-button');
+        const mapContainer = document.getElementById('map-container');
+        const muteButton = document.getElementById('mute-button');
+        const volumeSlider = document.getElementById('volume-slider');
+        
+        // Thiết lập âm thanh mặc định
+        introVideo.volume = 0.5;
+        
+        // Khi video kết thúc, hiển thị street view
+        introVideo.addEventListener('ended', function() {
+            showStreetView();
+        });
+        
+        // Khi nhấn nút bỏ qua, hiển thị street view
+        skipButton.addEventListener('click', function() {
+            showStreetView();
+        });
+        
+        // Điều khiển âm lượng
+        volumeSlider.addEventListener('input', function() {
+            introVideo.volume = this.value;
+            updateMuteButton();
+        });
+        
+        // Nút tắt tiếng
+        muteButton.addEventListener('click', function() {
+            introVideo.muted = !introVideo.muted;
+            updateMuteButton();
+        });
+        
+        // Cập nhật biểu tượng nút tắt tiếng
+        function updateMuteButton() {
+            if (introVideo.muted || introVideo.volume === 0) {
+                muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            } else {
+                muteButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+            }
+        }
+        
+        // Hàm hiển thị street view
+        function showStreetView() {
+            videoContainer.style.display = 'none';
+            mapContainer.style.display = 'block';
+        }
+        
+        // Tự động cập nhật nút âm thanh
+        updateMuteButton();
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "title": "Global Landmarks",
+  "panoramas": {
+    "pano_1": { "file": "../textures1/lanh3_1.jpg", "label": "The Convention Centre Dublin - View 1" },
+    "pano_2": { "file": "../textures1/lanh3_2.jpg", "label": "Zamek Książ, Poland - View 2" },
+    "pano_3": { "file": "../textures1/lanh3_3.jpg", "label": "South Africa - View 3 (Video Area)" }
+  },
+  "video": "../Video/lanh4.mp4",
+  "navigation": {
+    "pano_1": [{ "symbol": "➡", "target": "pano_2" }],
+    "pano_2": [{ "symbol": "⬅", "target": "pano_1" }, { "symbol": "➡", "target": "pano_3" }],
+    "pano_3": [{ "symbol": "⬅", "target": "pano_2" }]
+  }
+}

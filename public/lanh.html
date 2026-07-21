@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour Khám Phá</title>
+  <link rel="stylesheet" href="./css/lanh.css"/>
+</head>
+<body>
+  <!-- Loading -->
+  <div id="loading">
+    <div class="spinner"></div>
+    Đang tải panorama...
+  </div>
+
+  <!-- Label -->
+  <div id="label"></div>
+
+    <!-- Video Controls -->
+  <div id="videoControls">
+    <button id="playBtn">▶ Play</button>
+    <button id="pauseBtn">⏸ Pause</button>
+  </div>
+
+  <!-- Arrow Container -->
+  <div id="arrowContainer"></div>
+  <div id="exitBtn" class="exit-button">← Back</div>
+
+  <!-- Importmap for Three.js (nếu dùng CDN, nhưng giả định local như earth.js) -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.152.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.152.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <!-- Script load lanh.js (ES module) -->
+  <script type="module" src="../script/lanh.js"></script>
+</body>
+</html>

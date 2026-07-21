@@ -1,0 +1,14 @@
+{
+  "title": "European Historical Sites",
+  "panoramas": {
+    "pano_1": { "file": "../textures1/lanh3_1.jpg", "label": "Kharkiv Historical Museum, Ukraine - View 1" },
+    "pano_2": { "file": "../textures1/lanh3_2.jpg", "label": "Colosseum, Rome - View 2" },
+    "pano_3": { "file": "../textures1/lanh3_3.jpg", "label": "Palermo, Italy - View 3 (Video Area)" }
+  },
+  "video": "../Video/lanh3.mp4",
+  "navigation": {
+    "pano_1": [{ "symbol": "➡", "target": "pano_2" }],
+    "pano_2": [{ "symbol": "⬅", "target": "pano_1" }, { "symbol": "➡", "target": "pano_3" }],
+    "pano_3": [{ "symbol": "⬅", "target": "pano_2" }]
+  }
+}

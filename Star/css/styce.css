@@ -1,0 +1,190 @@
+:root {
+  --primary-blue: #0066ff;
+  --secondary-blue: #00bfff;
+  --accent-blue: #0099ff;
+  --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+body { margin: 0; overflow: hidden; background: black; }
+canvas { display: block; }
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+}
+
+#back-btn {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 20;
+}
+
+#next-btn {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+}
+
+/* Nút Settings mới */
+#settings-button {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    color: white;
+    width: 50px;
+    height: 160px;
+    clip-path: polygon(100% 0, 100% 100%, 0% 85%, 0% 15%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6em;
+    cursor: pointer;
+    z-index: 30;
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+#settings-button:hover {
+    background: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
+    transform: translateY(-50%) translateX(-5px) scale(1.05);
+    box-shadow: 0 0 35px rgba(0, 180, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Các nút khác */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.4);
+    transition: 0.3s;
+}
+button:hover {
+    background: rgba(255,255,255,0.4);
+}
+
+/* 🔊 Thanh âm lượng */
+input[type="range"] {
+    width: 120px;
+    accent-color: #00bfff;
+    cursor: pointer;
+}
+
+label {
+    color: white;
+    font-size: 18px;
+}
+
+/* Panel trải nghiệm không gian */
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 350px;
+    height: 100vh;
+    background: rgba(0, 10, 30, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: -5px 0 25px rgba(0, 100, 255, 0.3);
+    transition: right 0.4s ease;
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+    color: white;
+}
+
+.side-panel.active {
+    right: 0;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #fff;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #00bfff;
+}
+
+.side-panel h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 22px;
+    color: #00bfff;
+}
+
+.side-panel p {
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+/* Nút toàn màn hình trong panel */
+.panel-fullscreen {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.fullscreen-panel-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #00bfff, #0066ff);
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.fullscreen-panel-btn:hover {
+    background: linear-gradient(135deg, #00a3e0, #0055cc);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 150, 255, 0.4);
+}
+
+.panel-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.panel-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.panel-item:hover {
+    background: rgba(0, 150, 255, 0.3);
+    transform: translateX(5px);
+    border-color: #00bfff;
+}

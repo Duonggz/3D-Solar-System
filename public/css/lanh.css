@@ -1,0 +1,150 @@
+
+    body { 
+      margin: 0; 
+      overflow: hidden; 
+      background: linear-gradient(to bottom, #000, #001122); 
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+    canvas { display: block; }
+
+    /* Loading spinner */
+    #loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      text-align: center;
+      font-size: 18px;
+    }
+    .spinner {
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top: 4px solid #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Video controls */
+    #videoControls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: none;
+      background: rgba(0,0,0,0.7);
+      padding: 10px;
+      border-radius: 10px;
+    }
+    button {
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 6px;
+      padding: 10px 15px;
+      margin: 0 5px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #333;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    button:hover { 
+      background: rgba(200,200,255,1); 
+      transform: translateY(-2px);
+    }
+
+    /* Label */
+    #label {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 20px rgba(255,255,255,0.5);
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      z-index: 20;
+      max-width: 80%;
+    }
+
+    /* Arrow container */
+    #arrowContainer {
+      position: absolute;
+      bottom: 100px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      z-index: 20;
+      flex-wrap: wrap;
+    }
+
+    .arrow {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(220,220,255,0.8));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      user-select: none;
+      z-index: 20;
+      touch-action: manipulation;
+    }
+
+    .arrow:hover, .arrow:active {
+      background: linear-gradient(145deg, rgba(200,200,255,1), rgba(150,150,255,0.9));
+      transform: scale(1.2) rotate(5deg);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      #label { font-size: 18px; top: 10px; }
+      #arrowContainer { bottom: 80px; gap: 10px; }
+      .arrow { width: 50px; height: 50px; font-size: 20px; }
+      #videoControls { bottom: 10px; padding: 8px; }
+      button { padding: 8px 12px; font-size: 14px; }
+    }
+
+.exit-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 30;  /* Cao hơn label/arrows */
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  user-select: none;
+  touch-action: manipulation;
+}
+.exit-button:hover, .exit-button:active {
+  background: rgba(255, 0, 0, 0.8);  /* Red hover */
+  transform: scale(1.1);
+}
+@media (max-width: 768px) {
+  .exit-button { 
+    top: 10px; 
+    right: 10px; 
+    padding: 8px 12px; 
+    font-size: 14px; 
+  }
+}

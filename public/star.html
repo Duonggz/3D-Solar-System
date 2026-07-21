@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Fullscreen Auto Play</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: white;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Fullscreen container - HIỆN NGAY KHI LOAD */
+        .fullscreen-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            z-index: 1000;
+        }
+
+        .fullscreen-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1001;
+        }
+
+        .control-btn {
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 0, 0, 1);
+            transform: scale(1.1);
+        }
+
+        .control-btn:disabled {
+            background: rgba(102, 102, 102, 0.6);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .video-info {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Loading animation */
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            z-index: 1002;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fullscreen-container {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Nút trở về -->
+    <button class="back-btn" id="backBtn">
+        🔙 Quay lại
+    </button>
+
+    <!-- Thông tin video hiện tại -->
+    <div class="video-info" id="videoInfo">
+        Đang tải video...
+    </div>
+
+    <!-- Fullscreen Container - HIỆN NGAY KHI LOAD -->
+    <div class="fullscreen-container">
+        <iframe class="fullscreen-iframe" id="youtubeIframe" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+        </iframe>
+        
+        <div class="controls">
+            <button class="control-btn" id="prevBtn">
+                ⏮ Video trước
+            </button>
+            <button class="control-btn" id="nextBtn">
+                Video tiếp theo ⏭
+            </button>
+        </div>
+    </div>
+
+    <script>
+        class AutoFullscreenPlayer {
+            constructor() {
+                this.currentVideoIndex = 0;
+                
+                // Playlist từ các link của bạn
+                this.videos = [
+                    {
+                        id: 'lhiNnWglMTM',
+                        title: 'Video 6 - Mới thêm',
+                        startTime: 16,  // Bắt đầu từ giây 16
+                        thumbnail: 'https://img.youtube.com/vi/lhiNnWglMTM/mqdefault.jpg'
+                    },
+                    {
+                        id: 'owqf9rQ4B68',
+                        title: 'Video 7 - Mới thêm',
+                        startTime: 43,  // Bắt đầu từ giây 43
+                        thumbnail: 'https://img.youtube.com/vi/owqf9rQ4B68/mqdefault.jpg'
+                    }
+                ];
+
+                this.initializeElements();
+                this.setupEventListeners();
+                
+                // TỰ ĐỘNG PHÁT VIDEO ĐẦU TIÊN KHI LOAD TRANG
+                this.playCurrentVideo();
+            }
+
+            initializeElements() {
+                this.youtubeIframe = document.getElementById('youtubeIframe');
+                this.backBtn = document.getElementById('backBtn');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.videoInfo = document.getElementById('videoInfo');
+            }
+
+            setupEventListeners() {
+                // Nút quay lại - LOAD LẠI TRANG TRƯỚC
+                this.backBtn.addEventListener('click', () => {
+                    window.history.back();
+                });
+
+                this.prevBtn.addEventListener('click', () => this.previousVideo());
+                this.nextBtn.addEventListener('click', () => this.nextVideo());
+                
+                // Phím tắt
+                document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+            }
+
+            playCurrentVideo() {
+                const video = this.videos[this.currentVideoIndex];
+                
+                // Tạo URL YouTube với autoplay
+                let videoUrl = `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0&controls=1`;
+                if (video.startTime > 0) {
+                    videoUrl += `&start=${video.startTime}`;
+                }
+                
+                // Cập nhật iframe
+                this.youtubeIframe.src = videoUrl;
+                
+                // Cập nhật thông tin video
+                this.videoInfo.textContent = `Video ${this.currentVideoIndex + 1}/${this.videos.length}: ${video.title}`;
+                
+                // Cập nhật trạng thái nút
+                this.updateControls();
+            }
+
+            nextVideo() {
+                if (this.currentVideoIndex < this.videos.length - 1) {
+                    this.currentVideoIndex++;
+                    this.playCurrentVideo();
+                }
+            }
+
+            previousVideo() {
+                if (this.currentVideoIndex > 0) {
+                    this.currentVideoIndex--;
+                    this.playCurrentVideo();
+                }
+            }
+
+            handleKeyboard(event) {
+                switch(event.key) {
+                    case 'ArrowLeft':
+                        event.preventDefault();
+                        this.previousVideo();
+                        break;
+                    case 'ArrowRight':
+                        event.preventDefault();
+                        this.nextVideo();
+                        break;
+                    case 'Escape':
+                        event.preventDefault();
+                        window.history.back();
+                        break;
+                    case 'Backspace':
+                        event.preventDefault();
+                        window.history.back();
+                        break;
+                }
+            }
+
+            updateControls() {
+                this.prevBtn.disabled = this.currentVideoIndex === 0;
+                this.nextBtn.disabled = this.currentVideoIndex === this.videos.length - 1;
+            }
+        }
+
+        // TỰ ĐỘNG KHỞI ĐỘNG KHI LOAD TRANG
+        document.addEventListener('DOMContentLoaded', () => {
+            new AutoFullscreenPlayer();
+        });
+
+        // Chặn thoát fullscreen bằng phím F11
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F11') {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

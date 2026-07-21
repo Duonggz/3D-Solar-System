@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>360° Mars</title>
+  <link rel="stylesheet" href="../css/styce.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <button id="back-btn">🔙 Quay lại</button>
+  <button id="next-btn">⏭️ Next</button>
+
+  <!-- Nút menu cài đặt -->
+  <button id="settings-button" class="menu-btn">
+    <i class="fas fa-cog"></i>
+  </button>
+
+  <div id="controls">
+    <button id="playPauseBtn">▶️ Phát</button>
+    <label for="volumeSlider">🔊</label>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+  </div>
+
+  <!-- 🚀 PANEL TRẢI NGHIỆM KHÔNG GIAN -->
+  <div id="panel-space-exp" class="side-panel">
+    <div class="close-btn" data-close>
+      <i class="fas fa-times"></i>
+    </div>
+    <h2>🚀 Trải Nghiệm Không Gian</h2>
+    <p>Khám phá các hành tinh trong Hệ Mặt Trời</p>
+
+    <!-- Nút toàn màn hình trong panel -->
+    <div class="panel-fullscreen">
+      <button id="panel-fullscreen-btn" class="fullscreen-panel-btn">
+        <i class="fas fa-expand"></i> Toàn màn hình
+      </button>
+    </div>
+
+    <div class="panel-items">
+      <div class="panel-item" data-link="../../Star/html/sun.html">
+        <img src="../../icon/sun.png" alt="Sun" style="width: 20px; height: 20px; margin-right: 8px;">Mặt Trời
+      </div>
+      <div class="panel-item" data-link="../../Star/html/mercury.html">
+        <img src="../../icon/mercury.png" alt="Mercury" style="width: 20px; height: 20px; margin-right: 8px;">Sao Thủy
+      </div>
+      <div class="panel-item" data-link="../../Star/html/venus.html">
+        <img src="../../icon/venus.png" alt="Venus" style="width: 20px; height: 20px; margin-right: 8px;">Sao Kim
+      </div>
+      <div class="panel-item" data-link="../../Star/html/earth.html">
+        <img src="../../icon/earth.png" alt="Earth" style="width: 20px; height: 20px; margin-right: 8px;">Trái Đất
+      </div>
+      <div class="panel-item" data-link="../../Star/html/mars.html">
+        <img src="../../icon/mars.png" alt="Mars" style="width: 20px; height: 20px; margin-right: 8px;">Sao Hỏa
+      </div>
+      <div class="panel-item" data-link="../../Star/html/jupiter.html">
+        <img src="../../icon/jupiter.png" alt="Jupiter" style="width: 20px; height: 20px; margin-right: 8px;">Sao Mộc
+      </div>
+      <div class="panel-item" data-link="../../Star/html/saturn.html">
+        <img src="../../icon/saturn.png" alt="Saturn" style="width: 20px; height: 20px; margin-right: 8px;">Sao Thổ
+      </div>
+      <div class="panel-item" data-link="../../Star/html/uranus.html">
+        <img src="../../icon/uranus.png" alt="Uranus" style="width: 20px; height: 20px; margin-right: 8px;">Sao Thiên Vương
+      </div>
+      <div class="panel-item" data-link="../../Star/html/neptune.html">
+        <img src="../../icon/neptune.png" alt="Neptune" style="width: 20px; height: 20px; margin-right: 8px;">Sao Hải Vương
+      </div>
+      <div class="panel-item" data-link="../../Star/html/pluto.html">
+        <img src="../../icon/pluto.png" alt="Pluto" style="width: 20px; height: 20px; margin-right: 8px;">Sao Diêm Vương
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../JS/mars.js"></script>
+</body>
+</html>
