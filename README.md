@@ -1,6 +1,9 @@
+
 # 3D Solar System
 
 An interactive, browser-based 3D simulation of the Solar System built on **Three.js** and the WebGL rendering pipeline. Beyond a single orbital scene, the project is structured as a small suite of linked WebGL experiences — a clickable planetary inspector, an Earth/ISS exploration mode with multiple camera perspectives, a free-flight spaceship simulator, and a gallery of panoramic astronomical phenomena — unified behind a common landing page and navigation shell.
+
+![Uploading Screenshot 2026-07-21 203546.png…]()
 
 **Live demo:** [solar-system-3d-alb.vercel.app](https://solar-system-3d-alb.vercel.app/)
 
